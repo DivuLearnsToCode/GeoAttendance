@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ink text-parchment font-sans antialiased;
+    background-image:
+      radial-gradient(circle at 10% 0%, rgba(201, 164, 100, 0.08), transparent 40%),
+      radial-gradient(circle at 90% 100%, rgba(31, 58, 52, 0.35), transparent 45%);
+    background-attachment: fixed;
+  }
+  ::selection {
+    background: #c9a464;
+    color: #0e1116;
+  }
+  :focus-visible {
+    outline: 2px solid #c9a464;
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Fraunces', serif;
+  }
+  /* Perforated ticket-stub edge, used on the pass/QR cards */
+  .stub-edge {
+    -webkit-mask-image: radial-gradient(circle 6px at 0 50%, transparent 6px, black 6.5px);
+    mask-image: radial-gradient(circle 6px at 0 50%, transparent 6px, black 6.5px);
+  }
+  .divider-dashed {
+    background-image: linear-gradient(to bottom, transparent 0, transparent 4px, #8b8a85 4px, #8b8a85 10px);
+    background-size: 1px 10px;
+    background-repeat: repeat-y;
+  }
+}
+
+/* html5-qrcode injects a <video>/<canvas> into #presence-qr-scanner at runtime.
+   Without this, the element can render at 0 height until the video's metadata
+   loads, which is why the feed can appear to never show up. */
+#presence-qr-scanner {
+  min-height: 320px;
+}
+#presence-qr-scanner video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  border-radius: 1rem;
+}
+#presence-qr-scanner img {
+  display: none; /* hides the library's default "torch"/camera-swap icon set we're not styling */
+}
+
+@keyframes signal-ring {
+  0% { transform: scale(0.6); opacity: 0.55; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.signal-ring {
+  animation: signal-ring 2.2s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signal-ring { animation: none; }
+  html { scroll-behavior: auto; }
+}
