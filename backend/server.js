@@ -27,5 +27,9 @@ app.use((err, req, res, next) => {
 
 app.use((req, res) => res.status(404).json({ error: 'Not found.' }));
 
+// Keep this block for local development; Vercel ignores app.listen automatically when exporting app
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Attendance API running on http://localhost:${PORT}`));
+
+// ADD THIS LINE FOR VERCEL:
+module.exports = app;
